@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>operation</title>
+</head>
+<body>
+
+<h1>연산을 해보자......해야지......</h1>
+
+<ul>
+    <li>산술 연산
+        <ul>
+            <li>10+2 = <span th:text="10+2"></span></li>
+            <li>10%2==0 <span th:text="10%2==0"></span></li>
+        </ul>
+    </li>
+    <li>Elvis 연산자
+        <ul>
+            <li><span th:text="${data}?: '데이타 없어요....'"></span></li>
+            <li><span th:text="${nullData}?: '데이타 없어요....'"></span></li>
+            <li>[[|${nullData}?: '데이타 없어요....'|]]</li>
+        </ul>
+    </li>
+    <li>No-Operation
+        <ul>
+            <li><span th:text="${data}?:_">데이타없음</span></li>
+            <li><span th:text="${nullData}?:_">데이타없음</span></li>
+        </ul>
+    </li>
+</ul>
+
+</body>
+</html>

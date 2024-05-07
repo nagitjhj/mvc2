@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>link</title>
+</head>
+<body>
+<h1>URL 링크</h1>
+<ul>
+    <li><a th:href="@{/hello}">/hello</a></li>
+    <li><a th:href="@{hello}">hello</a></li>
+    <li><a th:href="@{//hello}">프로토콜URL//</a></li>
+</ul>
+
+<h1>쿼리 파라미터 경로 변수</h1>
+<ul>
+    <li><a th:href="@{/hello(param=${param1}, param2=${param2})}">/hello(param=${param1}, param2=${param2})</a></li>
+    <li><a th:href="@{/hello/{param1}/{param2}(param1=${param1}, param2=${param2})}">/hello/{param1}/{param2}(param1=${param1}, param2=${param2})</a></li>
+    <li><a th:href="@{/hello/{param1}(param1=${param1}, param2=${param2})}">/hello/{param1}(param1=${param1}, param2=${param2})}</a></li>
+</ul>
+
+</body>
+</html>
