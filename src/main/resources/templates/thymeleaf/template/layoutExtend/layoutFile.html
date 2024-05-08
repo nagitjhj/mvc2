@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html th:fragment="layout (title, content)">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title}">Title</title>
+</head>
+<body>
+<h1>레이아웃 H1</h1>
+<div th:replace="${content}">
+    <p>나는 원본입니다</p>
+</div>
+<footer>
+    풋터
+</footer>
+</body>
+</html>

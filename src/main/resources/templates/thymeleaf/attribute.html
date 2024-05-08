@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>attribute</title>
+</head>
+<body>
+<h1>체크만 할겁니다 왜냐면 그냥요</h1>
+<input type="checkbox" id="ck" th:checked="false">
+<input type="checkbox" th:checked="true">
+<input type="checkbox" id="ck2" checked="false">
+<input type="checkbox" checked="true">
+<input type="checkbox" checked>
+
+<div id="test" th:id="name">
+    내가 짱임 다들 알지??
+</div>
+
+<script>
+    document.getElementById('ck2').checked = false;
+
+</script>
+<style>
+    #test{
+        font-size: 100px;
+    }
+</style>
+</body>
+</html>

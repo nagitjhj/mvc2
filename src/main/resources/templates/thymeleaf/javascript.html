@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript</title>
+</head>
+<body>
+<script>
+    let username = [[${user.username}]];
+    let user = [[${user}]];
+    let text = "지금 \"이\" 순간";
+</script>
+<script th:inline="javascript">
+    let username = [[${user.username}]];
+    let user = [[${user}]];
+    let text = "지금 \"이\" 순간";
+
+    [# th:each="user : ${users}"]
+        let user[[${userStat.count}]] = [[${user}]];
+    [/]
+</script>
+</body>
+</html>

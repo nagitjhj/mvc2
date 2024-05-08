@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>condition</title>
+</head>
+<body>
+<h1>조건문을 할겁니다 조건문 참 많이 사용하죠 맞습니다 조건을 주어서!!!</h1>
+
+<table>
+    <tr>
+        <th>count</th>
+        <th>username</th>
+        <th>age</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${userStat.count}"></td>
+        <td th:text="${user.username}"></td>
+        <td>
+            <span th:text="${user.age}"></span>
+            <span th:text="'미성년자'" th:if="${user.age lt 20}"></span>
+            <span th:text="'미성년자'" th:unless="${user.age ge 20}"></span>
+        </td>
+    </tr>
+</table>
+<!--/*-->
+<table>
+    <tr>
+        <th>count</th>
+        <th>username</th>
+        <th>age</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${userStat.count}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:switch="${user.age}">
+            <span th:case="10">10살</span>
+            <span th:case="20">20살</span>
+            <span th:case="*">기타</span>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
