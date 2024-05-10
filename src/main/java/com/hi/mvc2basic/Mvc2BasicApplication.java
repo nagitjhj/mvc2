@@ -13,12 +13,12 @@ public class Mvc2BasicApplication {
         SpringApplication.run(Mvc2BasicApplication.class, args);
     }
 
-    @Bean
-    public MessageSource messageSource(){
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("messages", "errors");
-        messageSource.setDefaultEncoding("utf-8");
-        return messageSource;
-    }
+//    @Bean
+//    public MessageSource messageSource(){
+//        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+//        messageSource.setBasenames("messages", "errors");
+//        messageSource.setDefaultEncoding("utf-8");
+//        return messageSource;
+//    }
 
 }
