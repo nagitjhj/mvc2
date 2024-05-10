@@ -10,6 +10,9 @@
 <div class="container" style="max-width: 600px">
     <div class="py-5 text-center">
         <h2 th:text="#{page.items}">상품 목록</h2>
+        <select th:field="${lang.locale}">
+            <option th:each="lang : ${languages}" th:text="${lang.lang}" th:value="${lang.locale}"></option>
+        </select>
     </div>
 
     <div class="row">
@@ -44,6 +47,32 @@
     </div>
 
 </div> <!-- /container -->
-
+<script>
+    document.getElementById('locale').addEventListener("change", ()=>{
+        // let url = "/message/items/lang";
+        // console.log(document.getElementById('locale').value)
+        let locale = document.getElementById('locale').value;
+        fetch("/message/items/lang",{
+            method: 'post',
+            body: {
+                locale: locale
+            }
+        }).catch((err)=>
+            console.log(err)
+        )
+    })
+    function changeLang() {
+        let url = "/message/items/lang";
+        fetch(url,{
+            method: 'post',
+            body: {
+                locale: document.getElementById('locale').value
+            }
+        }).then((res)=>
+            // console.log(res)
+            window.location.reload()
+        )
+    }
+</script>
 </body>
 </html>
