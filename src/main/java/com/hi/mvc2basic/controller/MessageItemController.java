@@ -3,9 +3,10 @@ package com.hi.mvc2basic.controller;
 import com.hi.mvc2basic.domain.Item;
 import com.hi.mvc2basic.domain.ItemRepository;
 import com.hi.mvc2basic.domain.Language;
-import com.hi.mvc2basic.domain.LanguageDTO;
+import com.hi.mvc2basic.domain.LocaleDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,9 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Locale;
 
+@Slf4j
 @Controller
 @RequestMapping("/message/items")
 @RequiredArgsConstructor
@@ -24,11 +27,14 @@ public class MessageItemController {
     private final LocaleResolver localeResolver;
 
     @GetMapping
-    public String items(Model model) {
+    public String items(Model model, HttpSession session) {
         List<Item> items = itemRepository.findAll();
+        Object attribute = session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+//        log.info(session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME) + "   ehlsl");
         model.addAttribute("items", items);
         model.addAttribute("languages", Language.values());
-        model.addAttribute("lang", new LanguageDTO());
+        model.addAttribute("lang", new LocaleDTO((Locale) attribute));
+//        model.addAttribute("currentLocale", session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME));
         return "message/items";
     }
 
@@ -68,9 +74,9 @@ public class MessageItemController {
 
     @ResponseBody
     @PostMapping("/lang")
-    public ResponseEntity<String> lang(@ModelAttribute LanguageDTO languageDTO, HttpSession session){
+    public ResponseEntity<String> lang(@RequestBody LocaleDTO locale, HttpSession session){
         try{
-            session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, languageDTO.getLocale());
+            session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale.getLocale());
             return ResponseEntity.ok().build();
         }catch (Exception e){
             return ResponseEntity.badRequest().build();

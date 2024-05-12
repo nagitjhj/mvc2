@@ -9,10 +9,11 @@ import java.util.Locale;
 
 @Configuration
 public class WebConfig {
+    //LocaleResolver는 locale을 결정하는 역할
     @Bean
     public LocaleResolver localeResolver(){
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(Locale.KOREA);
+        localeResolver.setDefaultLocale(Locale.KOREA); //Locale.KOREA == new Locale("ko")
         return localeResolver;
     }
 }

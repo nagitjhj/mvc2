@@ -11,7 +11,11 @@
     <div class="py-5 text-center">
         <h2 th:text="#{page.items}">상품 목록</h2>
         <select th:field="${lang.locale}">
-            <option th:each="lang : ${languages}" th:text="${lang.lang}" th:value="${lang.locale}"></option>
+            <option th:each="lang : ${languages}"
+                    th:text="${lang.lang}"
+                    th:value="${lang.locale}"
+            >
+            </option>
         </select>
     </div>
 
@@ -52,22 +56,35 @@
         // let url = "/message/items/lang";
         // console.log(document.getElementById('locale').value)
         let locale = document.getElementById('locale').value;
+        let localeDTO = {
+            locale : locale
+        }
         fetch("/message/items/lang",{
             method: 'post',
-            body: {
-                locale: locale
-            }
-        }).catch((err)=>
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(localeDTO)
+        }).then(()=>
+            window.location.reload()
+        ).catch((err)=>
             console.log(err)
         )
     })
     function changeLang() {
         let url = "/message/items/lang";
+        console.log(document.getElementById('locale').value + "????")
+        let value = document.getElementById('locale').value;
+        let localeDTO = {
+            locale : value
+        }
+
         fetch(url,{
             method: 'post',
-            body: {
-                locale: document.getElementById('locale').value
-            }
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(localeDTO)
         }).then((res)=>
             // console.log(res)
             window.location.reload()
