@@ -29,12 +29,12 @@ public class MessageItemController {
     @GetMapping
     public String items(Model model, HttpSession session) {
         List<Item> items = itemRepository.findAll();
-        Object attribute = session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
-//        log.info(session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME) + "   ehlsl");
+        Object locale = session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
         model.addAttribute("items", items);
         model.addAttribute("languages", Language.values());
-        model.addAttribute("lang", new LocaleDTO((Locale) attribute));
-//        model.addAttribute("currentLocale", session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME));
+        model.addAttribute("lang", new LocaleDTO((Locale) locale));
+//        model.addAttribute("lang", new LocaleDTO());
+        model.addAttribute("currentLocale", session.getAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME));
         return "message/items";
     }
 

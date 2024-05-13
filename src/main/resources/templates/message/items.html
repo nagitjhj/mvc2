@@ -11,10 +11,12 @@
     <div class="py-5 text-center">
         <h2 th:text="#{page.items}">상품 목록</h2>
         <select th:field="${lang.locale}">
+<!--        <select name="locale" id="locale">-->
             <option th:each="lang : ${languages}"
                     th:text="${lang.lang}"
                     th:value="${lang.locale}"
             >
+                <!--                    th:selected="${lang.locale == #locale}"-->
             </option>
         </select>
     </div>
