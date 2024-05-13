@@ -1,4 +1,4 @@
-package com.hi.mvc2basic.controller;
+package com.hi.mvc2basic.controller.validation;
 
 import com.hi.mvc2basic.domain.Item;
 import com.hi.mvc2basic.domain.ItemRepository;
