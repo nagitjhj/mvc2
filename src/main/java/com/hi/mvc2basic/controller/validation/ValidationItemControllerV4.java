@@ -8,10 +8,12 @@ import com.hi.mvc2basic.domain.item.SaveCheck;
 import com.hi.mvc2basic.domain.item.UpdateCheck;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,6 +26,11 @@ import java.util.List;
 public class ValidationItemControllerV4 {
 
     private final ItemRepository itemRepository;
+
+    @InitBinder("itemSaveForm")
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
+    }
 
     @GetMapping
     public String items(Model model) {

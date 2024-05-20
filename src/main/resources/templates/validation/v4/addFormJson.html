@@ -64,21 +64,31 @@
         color: #dc3545;
     }
 </style>
+<script
+        src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
 <script>
     document.getElementById('addButton').addEventListener('click', ()=>{
-        let aaa = document.getElementById('addForm');
-        aaa.serialize();
-        console.log(aaa);
-        let form = new FormData(document.getElementById('addForm').value);
-        console.log(form);
-        let formJson = JSON.stringify(form);
-        console.log('123123123'+formJson);
+        // let aaa = document.getElementById('addForm');
+        // aaa.serialize();
+        // console.log(aaa);
+        // let form = new FormData(document.getElementById('addForm').value);
+        // console.log(form);
+        // let formJson = JSON.stringify(form);
+        // console.log('123123123'+formJson);
+        let formArray = $('#addForm').serializeArray();
+        let formData = {};
+        formArray.forEach(field => {
+            formData[field.name] = field.value;
+        });
+        console.log(formData);
         fetch("/validation/v4/items/addJson", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: formJson
+            body: JSON.stringify(formData)
         }).then((res)=>{
             console.log(res);
         })
