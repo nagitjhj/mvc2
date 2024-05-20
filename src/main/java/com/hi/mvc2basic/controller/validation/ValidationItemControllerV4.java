@@ -45,6 +45,12 @@ public class ValidationItemControllerV4 {
         return "validation/v4/addForm";
     }
 
+    @GetMapping("/addJson")
+    public String addFormJson(Model model) {
+        model.addAttribute("item", new Item());
+        return "validation/v4/addFormJson";
+    }
+
     @PostMapping("/add")
     public String addItem(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         //글로벌 오류는 이렇게 자바 코드로 사용하자
@@ -57,6 +63,32 @@ public class ValidationItemControllerV4 {
 
         if(bindingResult.hasErrors()){
             return "validation/v4/addForm";
+        }
+
+        //성공 로직
+        Item item = new Item();
+        item.setItemName(form.getItemName());
+        item.setPrice(form.getPrice());
+        item.setQuantity(form.getQuantity());
+
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v4/items/{itemId}";
+    }
+
+    @PostMapping("/addJson")
+    public String addItemJson(@Validated @RequestBody ItemSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        //글로벌 오류는 이렇게 자바 코드로 사용하자
+        if(form.getPrice() != null && form.getQuantity() != null){
+            int resultPrice = form.getPrice() * form.getQuantity();
+            if(resultPrice<10000){
+                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
+            }
+        }
+
+        if(bindingResult.hasErrors()){
+            return "validation/v4/addFormJson";
         }
 
         //성공 로직

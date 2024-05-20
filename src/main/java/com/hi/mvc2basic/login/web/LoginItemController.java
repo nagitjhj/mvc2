@@ -4,6 +4,11 @@ import com.hi.mvc2basic.domain.Item;
 import com.hi.mvc2basic.domain.ItemRepository;
 import com.hi.mvc2basic.domain.item.ItemSaveForm;
 import com.hi.mvc2basic.domain.item.ItemUpdateForm;
+import com.hi.mvc2basic.login.domain.member.Member;
+import com.hi.mvc2basic.login.domain.member.MemberRepository;
+import com.hi.mvc2basic.login.web.session.SessionManager;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,6 +27,8 @@ import java.util.List;
 public class LoginItemController {
 
     private final ItemRepository itemRepository;
+    private final MemberRepository memberRepository;
+    private final SessionManager sessionManager;
 
     @GetMapping
     public String home(Model model) {
@@ -30,9 +37,60 @@ public class LoginItemController {
         return "login/item/items";
     }
 
-    @GetMapping("/home")
+//    @GetMapping("/home")
     public String items() {
         return "login/home";
+    }
+
+//    @GetMapping("/home")
+    public String homeLogin(@CookieValue(name = "memberId", required = false) Long memberId, Model model) {
+        if(memberId == null)
+            return "login/home";
+
+        //로그인
+        Member loginMember = memberRepository.findById(memberId);
+        if(loginMember == null)
+            return "login/home";
+
+        model.addAttribute("member", loginMember);
+        return "login/loginHome";
+    }
+
+//    @GetMapping("/home")
+    public String homeLoginV2(HttpServletRequest request, Model model) {
+        //로그인
+        Member member = (Member) sessionManager.getSession(request);
+        if(member == null)
+            return "login/home";
+
+        model.addAttribute("member", member);
+        return "login/loginHome";
+    }
+
+//    @GetMapping("/home")
+    public String homeLoginV3(HttpServletRequest request, Model model) {
+        //로그인
+        HttpSession session = request.getSession(false);
+        if(session == null)
+            return "login/home";
+
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if(loginMember == null){
+            return "login/home";
+        }
+
+        model.addAttribute("member", loginMember);
+        return "login/loginHome";
+    }
+
+    @GetMapping("/home")
+    public String homeLoginV3Login(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
+        if(loginMember == null){
+            return "login/home";
+        }
+
+        model.addAttribute("member", loginMember);
+        return "login/loginHome";
     }
 
     @GetMapping("/{itemId}")
