@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class ItemRepository {
@@ -26,6 +27,11 @@ public class ItemRepository {
 
     public List<Item> findAll() {
         return new ArrayList<>(store.values());
+    }
+
+    public List<Item> findPaging(int page) {
+        page--;
+        return new ArrayList<>(store.values().stream().skip(page*3).limit(3).collect(Collectors.toList()));
     }
 
     public void update(Long itemId, Item updateParam) {
