@@ -27,7 +27,7 @@ public class ValidationItemControllerV4 {
 
     private final ItemRepository itemRepository;
 
-    @InitBinder("itemSaveForm")
+    @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
     }
