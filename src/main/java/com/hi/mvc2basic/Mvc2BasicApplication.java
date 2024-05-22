@@ -2,13 +2,14 @@ package com.hi.mvc2basic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@EnableScheduling
-@SpringBootApplication
+//@EnableScheduling
+@SpringBootApplication(exclude = {QuartzAutoConfiguration.class})
 public class Mvc2BasicApplication {
 
     public static void main(String[] args) {

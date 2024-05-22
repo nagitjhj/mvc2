@@ -1,0 +1,13 @@
+
+spring:
+  messages:
+    basename: messages, errors
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/projectb?serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+
+  main:
+    allow-bean-definition-overriding: true
