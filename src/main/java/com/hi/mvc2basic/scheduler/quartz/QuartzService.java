@@ -1,21 +1,17 @@
 package com.hi.mvc2basic.scheduler.quartz;
 
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 @Slf4j
-@Configuration
-public class QuartzConfig {
+@Service
+public class QuartzService {
 
     private final Scheduler scheduler;
 
-    public QuartzConfig( Scheduler scheduler) {
+    public QuartzService(Scheduler scheduler) {
         this.scheduler = scheduler;
     }
 

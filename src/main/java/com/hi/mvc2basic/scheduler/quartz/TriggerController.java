@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class TriggerController {
-    private final QuartzConfig quartzConfig;
+    private final QuartzService quartzService;
 
     @GetMapping("/trigger/cron")
     public String addTrigger(@RequestParam String cron){
         try {
-            quartzConfig.addTrigger(cron);
+            quartzService.addTrigger(cron);
             return cron;
         } catch (SchedulerException e) {
             return e.getMessage();

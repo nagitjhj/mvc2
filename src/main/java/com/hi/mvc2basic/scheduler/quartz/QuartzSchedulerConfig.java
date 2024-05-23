@@ -6,9 +6,9 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class QuartzSchedulerConfig {
-    @Bean
+//    @Bean
     public Scheduler scheduler() throws SchedulerException {
         return StdSchedulerFactory.getDefaultScheduler();
     }

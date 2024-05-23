@@ -9,7 +9,8 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 //@EnableScheduling
-@SpringBootApplication(exclude = {QuartzAutoConfiguration.class})
+//@SpringBootApplication(exclude = {QuartzAutoConfiguration.class})
+@SpringBootApplication
 public class Mvc2BasicApplication {
 
     public static void main(String[] args) {
