@@ -52,7 +52,11 @@ public class ValidationItemControllerV5 {
     }
 
     @PostMapping("/add")
-    public String addItem(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+    public String addItem(@Validated @ModelAttribute("item") ItemSaveForm form
+            , BindingResult bindingResult
+            , RedirectAttributes redirectAttributes
+            , Model model) {
+
         //글로벌 오류는 이렇게 자바 코드로 사용하자
         if(form.getPrice() != null && form.getQuantity() != null){
             int resultPrice = form.getPrice() * form.getQuantity();
