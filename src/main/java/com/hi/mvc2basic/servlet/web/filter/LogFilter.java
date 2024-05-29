@@ -1,13 +1,16 @@
 package com.hi.mvc2basic.servlet.web.filter;
 
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 import java.util.UUID;
 
 @Slf4j
+//@WebFilter(filterName = "logFilter", urlPatterns = "/*")
 public class LogFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -20,6 +23,7 @@ public class LogFilter implements Filter {
         String requestURI = httpRequest.getRequestURI();
 
         String uuid = UUID.randomUUID().toString();
+        MDC.put("request_id", uuid);
 
         try {
             log.info("REQUEST [{}][{}]", uuid, requestURI);
@@ -28,6 +32,7 @@ public class LogFilter implements Filter {
             throw e;
         } finally {
             log.info("RESPONSE [{}][{}]", uuid, requestURI);
+            MDC.clear();
         }
     }
 
