@@ -2,10 +2,8 @@ package com.hi.mvc2basic.controller.validation;
 
 import com.hi.mvc2basic.domain.Item;
 import com.hi.mvc2basic.domain.ItemRepository;
-import com.hi.mvc2basic.domain.item.ItemSaveForm;
-import com.hi.mvc2basic.domain.item.ItemUpdateForm;
-import com.hi.mvc2basic.domain.item.SaveCheck;
-import com.hi.mvc2basic.domain.item.UpdateCheck;
+import com.hi.mvc2basic.domain.item.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
@@ -59,7 +57,7 @@ public class ValidationItemControllerV4 {
     }
 
     @PostMapping("/add")
-    public String addItem(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+    public String addItem(@Valid @ModelAttribute("item") ItemSaveFormField form, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         //글로벌 오류는 이렇게 자바 코드로 사용하자
         if(form.getPrice() != null && form.getQuantity() != null){
             int resultPrice = form.getPrice() * form.getQuantity();
@@ -136,6 +134,32 @@ public class ValidationItemControllerV4 {
         itemParam.setQuantity(form.getQuantity());
 
         itemRepository.update(itemId, itemParam);
+        return "redirect:/validation/v4/items/{itemId}";
+    }
+
+    @PostMapping("/addValidated")
+    public String addValidated(@Validated @RequestBody ItemSaveFormField form, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        //글로벌 오류는 이렇게 자바 코드로 사용하자
+        if(form.getPrice() != null && form.getQuantity() != null){
+            int resultPrice = form.getPrice() * form.getQuantity();
+            if(resultPrice<10000){
+                bindingResult.reject("totalPriceMin", new Object[]{10000, resultPrice}, null);
+            }
+        }
+
+        if(bindingResult.hasErrors()){
+            return "validation/v4/addFormJson";
+        }
+
+        //성공 로직
+        Item item = new Item();
+        item.setItemName(form.getItemName());
+        item.setPrice(form.getPrice());
+        item.setQuantity(form.getQuantity());
+
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
         return "redirect:/validation/v4/items/{itemId}";
     }
 }
