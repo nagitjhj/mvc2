@@ -2,6 +2,9 @@ package com.hi.mvc2basic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 //@EnableScheduling
 //@SpringBootApplication(exclude = {QuartzAutoConfiguration.class})
@@ -20,5 +23,6 @@ public class Mvc2BasicApplication {
 //        messageSource.setDefaultEncoding("utf-8");
 //        return messageSource;
 //    }
+
 
 }
