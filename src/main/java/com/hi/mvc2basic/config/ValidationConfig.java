@@ -9,7 +9,7 @@ public class ValidationConfig {
     @Bean
     public LocalValidatorFactoryBean validator() {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-        validator.getValidationPropertyMap().put("hibernate.validator.fail_fast", "false");
+        validator.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
         return validator;
     }
 }

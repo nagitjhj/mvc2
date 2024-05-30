@@ -96,6 +96,7 @@ public class LoginController {
             , BindingResult bindingResult
             , HttpServletRequest request
             , @RequestParam(defaultValue = "/login/items/home") String redirectURL){
+
         if(bindingResult.hasErrors())
             return "login/login/loginForm";
 

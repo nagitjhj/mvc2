@@ -26,4 +26,9 @@ public class BeanValidationTest {
             System.out.println("itemConstraintViolation.getMessage = " + itemConstraintViolation.getMessage());
         }
     }
+
+    @Test
+    void 타입미스매치오류(){
+
+    }
 }

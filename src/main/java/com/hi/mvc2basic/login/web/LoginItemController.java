@@ -7,6 +7,7 @@ import com.hi.mvc2basic.domain.item.ItemUpdateForm;
 import com.hi.mvc2basic.login.domain.member.Member;
 import com.hi.mvc2basic.login.domain.member.MemberRepository;
 import com.hi.mvc2basic.login.web.session.SessionManager;
+import com.hi.mvc2basic.servlet.web.argumentresolver.Login;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -83,8 +84,18 @@ public class LoginItemController {
         return "login/loginHome";
     }
 
-    @GetMapping("/home")
+//    @GetMapping("/home")
     public String homeLoginV3Login(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
+        if(loginMember == null){
+            return "login/home";
+        }
+
+        model.addAttribute("member", loginMember);
+        return "login/loginHome";
+    }
+
+    @GetMapping("/home")
+    public String homeLoginV3ArgumentResolver(@Login Member loginMember, Model model) {
         if(loginMember == null){
             return "login/home";
         }

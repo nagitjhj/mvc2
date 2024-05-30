@@ -1,5 +1,6 @@
 package com.hi.mvc2basic.controller.validation;
 
+import com.hi.mvc2basic.controller.validation.sequence.ValidationSequence;
 import com.hi.mvc2basic.domain.Item;
 import com.hi.mvc2basic.domain.ItemRepository;
 import com.hi.mvc2basic.domain.item.*;
@@ -24,10 +25,12 @@ import java.util.List;
 public class ValidationItemControllerV4 {
 
     private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator;
 
-    @InitBinder
+//    @InitBinder("items")
     public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
+//        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
+        binder.addValidators(itemValidator);
     }
 
     @GetMapping
@@ -57,7 +60,12 @@ public class ValidationItemControllerV4 {
     }
 
     @PostMapping("/add")
-    public String addItem(@Validated @ModelAttribute("item") ItemSaveFormField form, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+    public String addItem(@Validated(ValidationSequence.class) @ModelAttribute("item") ItemSaveFormField form, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+//        itemValidator.validate(form, bindingResult);
+        if(bindingResult.hasErrors()){
+            return "validation/v4/addForm";
+        }
+
         //글로벌 오류는 이렇게 자바 코드로 사용하자
         if(form.getPrice() != null && form.getQuantity() != null){
             int resultPrice = form.getPrice() * form.getQuantity();
