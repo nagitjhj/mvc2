@@ -53,14 +53,14 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/css/**", "/*.ico", "/error");
 
-        registry.addInterceptor(new LoginCheckInterceptor())
-                .order(2)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/", "/members/add", "/login", "/logout", "/css/*", "/login/items/home");
+//        registry.addInterceptor(new LoginCheckInterceptor())
+//                .order(2)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns("/", "/members/add", "/login", "/logout", "/css/*", "/login/items/home");
     }
 
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new LoginMemberArgumentResolver());
-    }
+//    @Override
+//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+//        resolvers.add(new LoginMemberArgumentResolver());
+//    }
 }
