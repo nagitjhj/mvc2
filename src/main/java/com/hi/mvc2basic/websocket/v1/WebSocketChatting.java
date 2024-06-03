@@ -60,8 +60,10 @@ public class WebSocketChatting {
         room.getSessions().remove(session);
         log.info("SYSTEM 세션을 닫음 -> {}", session);
 
-        if(room.getSessions().size() >= 1){
+        if(room.getSessions().size() == 0){
 //            Set<Session> sessions = room.getSessions();
+            CHATMAP.remove(roomId);
+        }else{
             room.getSessions().iterator().next().getBasicRemote().sendText(user + "님이 떠나갔습니다... 다음 분을 기다리세요...");
         }
     }
