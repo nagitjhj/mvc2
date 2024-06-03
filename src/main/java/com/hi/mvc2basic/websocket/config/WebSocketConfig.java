@@ -15,15 +15,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
      * @ServerEndpoint 클래스는 WebSocket이 생성될 때마다 인스턴스를 생성해서 Bean으로 등록해서 싱글토으로 관리하려고
      * @return
      */
-//    @Bean
-//    public ServerEndpointExporter serverEndpointExporter() {
-//        return new ServerEndpointExporter();
-//    }
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
+    }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/topic", "/queue");
-        registry.setApplicationDestinationPrefixes("/app");
+        registry.setApplicationDestinationPrefixes("/pub");
     }
 
 //    @Override

@@ -2,11 +2,13 @@ package com.hi.mvc2basic.websocket.v3;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Controller
+//@Controller
 @RequiredArgsConstructor
 public class ChatController {
 
@@ -14,7 +16,7 @@ public class ChatController {
     private final MatchmakingService matchmakingService;
 
     @MessageMapping("/chat")
-    public void processMessage(ChatMessage chatMessage) {
+    public void processMessage(ChatMessage chatMessage, SimpMessageHeaderAccessor accessor) {
         if(chatMessage.getRecipient() == null) {
             chatMessage.setRecipient(matchmakingService.findRandomRecipient(chatMessage.getSender()));
         }
@@ -27,7 +29,13 @@ public class ChatController {
     }
 
     @GetMapping("/chatting")
-    public String chatting(){
+    public String chatting(Model model){
+//        Long roomId = matchmakingService.getRoomId();
+//        if(roomId != null){
+//            model.addAttribute("roomId", roomId);
+//        }else{
+//            model.addAttribute("roomId", null);
+//        }
         return "socket/v3/chat3";
     }
 

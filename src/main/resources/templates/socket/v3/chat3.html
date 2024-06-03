@@ -44,11 +44,13 @@
             width: 700px;
         }
         .me{
-            color: blue;
+            background-color : #ffc;
+            margin : 1px 0px 2px 30%;
         }
 
         .other{
-            color: red;
+            background-color : #eee;
+            margin : 2px;
         }
     </style>
 </head>
@@ -105,7 +107,7 @@
 
     function sendMessage() {
         let messageContent = document.getElementById('msg').value;
-        stompClient.send("/app/chat", {},JSON.stringify({
+        stompClient.send("/pub/chat", {},JSON.stringify({
             'sender': sender, //현재 사용자
             'recipient': recipient,
             'content': messageContent
@@ -120,11 +122,31 @@
     // }
 
     function showMessage(data){
-        if(data.sender===sender){
-            $('#chatting').append("<p class='me'>"+data.sender+" : "+data.content+"</p>");
-        } else {
-            $('#chatting').append("<p class='other'>"+data.sender+" : "+data.content+"</p>");
+        // if(data.sender===sender){
+        //     $('#chatting').append("<p class='me'>"+data.sender+" : "+data.content+"</p>");
+        // } else {
+        //     $('#chatting').append("<p class='other'>"+data.sender+" : "+data.content+"</p>");
+        // }
+
+        // let data = JSON.parse(msg.data);
+        let chatting = document.getElementById('chatting');
+        let css;
+
+        if(data.sender === sender) {
+            css = 'class=me';
+        }else {
+            css = 'class=other';
         }
+
+        let item = `
+                <div ${css}
+                    <span><b>${data.sender}</b></span><br/>
+                    <span>${data.content}</span>
+                </div>
+            `;
+
+        chatting.innerHTML += item;
+        chatting.scrollTop = chatting.scrollHeight;
     }
 
     connect();

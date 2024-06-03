@@ -7,7 +7,7 @@
 <body>
     <div id="chat">
         <h1>WebSocket Chatting</h1>
-        <input type="text" id="mid" value="aaa">
+        <input type="text" id="mid" value="123">
         <input type="button" value="로그인" id="btnLogin">
         <br/>
         <div id="talk"></div>
@@ -31,33 +31,47 @@
     let talk = getId('talk');
     let msg = getId('msg');
 
+    let roomId = [[${roomId}]];
+    // let roomId = new Date().getTime();
+
     btnLogin.onclick = function (){
-        ws = new WebSocket("ws://" + location.host + "/chat");
+        ws = new WebSocket("ws://" + location.host + "/chat/"+roomId+"/"+mid.value);
+
         //
         // ws.onopen = function () {
         //     register();
         // }
 
         ws.onmessage = function (msg) {
-            let data = JSON.parse(msg.data);
-            let css;
+            let item;
+            try{
+                let data = JSON.parse(msg.data);
+                // let data = msg.data;
+                let css;
 
-            if(data.mid == mid.value) {
-                css = 'class=me';
-            }else {
-                css = 'class=other';
+                if(data.mid == mid.value) {
+                    css = 'class=me';
+                }else {
+                    css = 'class=other';
+                }
+
+                item = `
+                    <div ${css}
+                        <span><b>${data.mid}</b></span> [ ${data.date} ]<br/>
+                        <span>${data.msg}</span>
+                    </div>
+                `;
+            }catch (e) {
+                let data = msg.data;
+                item = `<div>${data}</div>`;
             }
-
-            let item = `
-                <div ${css}
-                    <span><b>${data.mid}</b></span> [ ${data.date} ]<br/>
-                    <span>${data.msg}</span>
-                </div>
-            `;
 
             talk.innerHTML += item;
             talk.scrollTop = talk.scrollHeight;
         }
+
+        document.getElementById('mid').disabled = true;
+        document.getElementById('btnLogin').disabled = true;
     }
 
     function register() {
