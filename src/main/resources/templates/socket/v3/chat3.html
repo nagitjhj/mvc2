@@ -62,6 +62,7 @@
 
     <div class="container" id="container">
         <h1 id="title_room">채팅방제목</h1>
+        <input id="myId" placeholder="내 아이디">
         <div id="chatting" class="chatting">
         </div>
         <div id="yourMsg">
@@ -75,10 +76,11 @@
         </div>
     </div>
 <script>
-    let sender = "star";
+    // let sender = [[${sessionId}]];
 
     let stompClient = null;
-    let recipient = window.prompt("@닉네임을 입력해주세요@");; //이거 랜덤하게 설정하기
+    let userId = window.prompt("@보내실 분의 Id 입력해주세요@"); //이거는 보낼사람 세션
+    let recipient = document.getElementById('myId').value //이거는 나의 세션
 
     function connect() {
         //endpoint로 SockJS 객체, StompClient 객체 생성
@@ -90,9 +92,14 @@
             console.log('Connected : ' + frame);
             // stompClient.subscribe('/queue/' + recipient, function (message) {
             //subscribe의 url에서 메시지를 받음
-            stompClient.subscribe('/queue/'+sender, function (message) {
+            stompClient.subscribe('/topic/star', function (message) {
                 showMessage(JSON.parse(message.body));
             });
+
+            stompClient.subscribe('/user/queue/reply', function (message) {
+                showMessage(JSON.parse(message.body));
+            })
+
         },
         function (e) {
             //콜백 에러
@@ -102,16 +109,30 @@
     }
 
     $('#msg').keypress(function (e) {
-        if(e.keyCode === 13) sendMessage();
+        if(e.keyCode === 13) sendMessageStar();
     })
 
     function sendMessage() {
         let messageContent = document.getElementById('msg').value;
-        stompClient.send("/pub/chat2", {},JSON.stringify({
-            'sender': sender,
-            'recipient': recipient, //현재 사용자
+        stompClient.send("/app/star", {},JSON.stringify({
+            // 'userId' : userId,
+            'sender': userId,
+            'recipient': document.getElementById('myId').value, //현재 사용자
             'content': messageContent
         }));
+        document.getElementById('msg').value = '';
+    }
+
+    function sendMessageStar() {
+        let messageContent = document.getElementById('msg').value;
+        stompClient.send("/app/sendToUser", {},JSON.stringify({
+            // 'userId' : userId,
+            'sender': userId,
+            'recipient': document.getElementById('myId').value, //현재 사용자
+            'content': messageContent
+        }));
+
+        document.getElementById('msg').value = '';
     }
 
     // function showMessage(message) {
@@ -132,7 +153,7 @@
         let chatting = document.getElementById('chatting');
         let css;
 
-        if(data.recipient === recipient) {
+        if(data.recipient === document.getElementById('myId').value) {
             css = 'class=me';
         }else {
             css = 'class=other';

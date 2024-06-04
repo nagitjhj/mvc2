@@ -1,49 +1,63 @@
 package com.hi.mvc2basic.websocket.v3;
 
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.user.SimpUser;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Set;
+
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class ChatController {
 
-    private final SimpMessagingTemplate messagingTemplate;
-    private final MatchmakingService matchmakingService;
+    private final SimpMessagingTemplate messagingTemplate; // = new AbstractMessageSendingTemplate<>()
+    //Stomp에 연결된 세션 사용자 장보를 가져오는 것 -> 안됨 ㅡㅡ
+    private final SimpUserRegistry simpUserRegistry;
 
-    @MessageMapping("/chat2")
+    @MessageMapping("/star")
     public void processMessage(ChatMessage message, SimpMessageHeaderAccessor accessor) {
-//        if(chatMessage.getRecipient() == null) {
-//            chatMessage.setRecipient(matchmakingService.findRandomRecipient(chatMessage.getSender()));
-//        }
-//        if (message.getRecipient() != null) {
-        matchmakingService.setRecipient(message.getSender(), message.getRecipient());
-        String destination = "/queue/" + message.getSender();
-//            messagingTemplate.convertAndSend(destination, chatMessage); //여기서 처리함
-//        }
-        //특정 구독자에게 발송 convertAndSendToUser
-        messagingTemplate.convertAndSend(destination, message); //여기서 처리함
+        Set<SimpUser> users = simpUserRegistry.getUsers();
+        for (SimpUser user : users) {
+            log.info(user.getName());
+        }
+
+        SimpUser user = simpUserRegistry.getUser(message.getSender());
+        if(user != null)
+            log.info(user.getName());
+
+        messagingTemplate.convertAndSend("/topic/star", message); //여기서 처리함
         //@SendTo나 messagingTemplated으로 메시지를 클라이언트로 전달
     }
 
-//    @MessageMapping("/userToSend")
-//    public void userToSend(String message, ){
-//
-//    }
+    @MessageMapping("/sendToUser")
+    public void userToSend(ChatMessage message, SimpMessageHeaderAccessor accessor){
+        messagingTemplate.convertAndSendToUser(message.getSender(), "/queue/reply", message, createHeaders(message.getSender()));
+        messagingTemplate.convertAndSendToUser(accessor.getSessionId(), "/queue/reply", message, createHeaders(accessor.getSessionId()));
+    }
 
     @GetMapping("/chatting")
     public String chatting(Model model){
-//        Long roomId = matchmakingService.getRoomId();
-//        if(roomId != null){
-//            model.addAttribute("roomId", roomId);
-//        }else{
-//            model.addAttribute("roomId", null);
-//        }
         return "socket/v3/chat3";
+    }
+
+    private MessageHeaders createHeaders(@Nullable String sessionId){
+        SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
+        if(sessionId != null) {
+            headerAccessor.setSessionId(sessionId);
+        }
+        headerAccessor.setLeaveMutable(true);
+        return headerAccessor.getMessageHeaders();
     }
 
 }
