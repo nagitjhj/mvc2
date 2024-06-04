@@ -30,6 +30,11 @@ public class ChatController {
         //@SendTo나 messagingTemplated으로 메시지를 클라이언트로 전달
     }
 
+//    @MessageMapping("/userToSend")
+//    public void userToSend(String message, ){
+//
+//    }
+
     @GetMapping("/chatting")
     public String chatting(Model model){
 //        Long roomId = matchmakingService.getRoomId();

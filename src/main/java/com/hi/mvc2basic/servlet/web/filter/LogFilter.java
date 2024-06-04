@@ -26,12 +26,12 @@ public class LogFilter implements Filter {
         MDC.put("request_id", uuid);
 
         try {
-            log.info("REQUEST [{}][{}]", uuid, requestURI);
+            log.info("REQUEST [{}][{}][{}]", uuid, requestURI, request.getDispatcherType());
             chain.doFilter(request, response);
         } catch (Exception e) {
             throw e;
         } finally {
-            log.info("RESPONSE [{}][{}]", uuid, requestURI);
+            log.info("RESPONSE [{}][{}][{}]", uuid, requestURI, request.getDispatcherType());
             MDC.clear();
         }
     }

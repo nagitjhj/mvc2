@@ -5,6 +5,7 @@ import com.hi.mvc2basic.servlet.web.filter.LogFilter;
 import com.hi.mvc2basic.servlet.web.filter.LoginCheckFilter;
 import com.hi.mvc2basic.servlet.web.interceptor.LogInterceptor;
 import com.hi.mvc2basic.servlet.web.interceptor.LoginCheckInterceptor;
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,7 @@ public class WebConfig implements WebMvcConfigurer {
         filterRegistrationBean.setFilter(new LogFilter());
         filterRegistrationBean.setOrder(1);
         filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ERROR);
         return filterRegistrationBean;
     }
 
@@ -51,7 +53,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LogInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/css/**", "/*.ico", "/error");
+                .excludePathPatterns("/css/**", "/*.ico", "/error", "/error-page/**");
 
 //        registry.addInterceptor(new LoginCheckInterceptor())
 //                .order(2)

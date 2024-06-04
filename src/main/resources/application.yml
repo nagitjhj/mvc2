@@ -12,3 +12,11 @@ spring:
 #  main:
 #    allow-bean-definition-overriding: true
 
+server:
+  error:
+    whitelabel:
+      enabled: false
+    include-exception: true
+    include-message: on_param
+    include-stacktrace: on_param
+    include-binding-errors: on_param
