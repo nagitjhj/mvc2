@@ -1,16 +1,15 @@
 package com.hi.mvc2basic.config;
 
-import com.hi.mvc2basic.servlet.web.argumentresolver.LoginMemberArgumentResolver;
+import com.hi.mvc2basic.api.resolver.MyHandlerExceptionResolver;
 import com.hi.mvc2basic.servlet.web.filter.LogFilter;
 import com.hi.mvc2basic.servlet.web.filter.LoginCheckFilter;
 import com.hi.mvc2basic.servlet.web.interceptor.LogInterceptor;
-import com.hi.mvc2basic.servlet.web.interceptor.LoginCheckInterceptor;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -65,4 +64,10 @@ public class WebConfig implements WebMvcConfigurer {
 //    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 //        resolvers.add(new LoginMemberArgumentResolver());
 //    }
+
+
+    @Override
+    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+        resolvers.add(new MyHandlerExceptionResolver());
+    }
 }
