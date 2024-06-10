@@ -18,5 +18,5 @@ server:
       enabled: false
     include-exception: true
     include-message: always
-    include-stacktrace: always
+    include-stacktrace: on_param
     include-binding-errors: always

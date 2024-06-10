@@ -1,6 +1,7 @@
 package com.hi.mvc2basic.config;
 
 import com.hi.mvc2basic.api.resolver.MyHandlerExceptionResolver;
+import com.hi.mvc2basic.api.resolver.UserHandlerExceptionResolver;
 import com.hi.mvc2basic.servlet.web.filter.LogFilter;
 import com.hi.mvc2basic.servlet.web.filter.LoginCheckFilter;
 import com.hi.mvc2basic.servlet.web.interceptor.LogInterceptor;
@@ -69,5 +70,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
         resolvers.add(new MyHandlerExceptionResolver());
+        resolvers.add(new UserHandlerExceptionResolver());
     }
 }
