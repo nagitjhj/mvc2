@@ -5,11 +5,17 @@ import com.hi.mvc2basic.api.resolver.UserHandlerExceptionResolver;
 import com.hi.mvc2basic.servlet.web.filter.LogFilter;
 import com.hi.mvc2basic.servlet.web.filter.LoginCheckFilter;
 import com.hi.mvc2basic.servlet.web.interceptor.LogInterceptor;
+import com.hi.mvc2basic.typeconverter.converter.IntegerToStringConverter;
+import com.hi.mvc2basic.typeconverter.converter.IpPortToStringConverter;
+import com.hi.mvc2basic.typeconverter.converter.StringToIntegerConverter;
+import com.hi.mvc2basic.typeconverter.converter.StringToIpPortConverter;
+import com.hi.mvc2basic.typeconverter.formatter.MyNumberFormatter;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -71,5 +77,16 @@ public class WebConfig implements WebMvcConfigurer {
     public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
         resolvers.add(new MyHandlerExceptionResolver());
         resolvers.add(new UserHandlerExceptionResolver());
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+//        registry.addConverter(new StringToIntegerConverter());
+//        registry.addConverter(new IntegerToStringConverter());
+        registry.addConverter(new StringToIpPortConverter());
+        registry.addConverter(new IpPortToStringConverter());
+
+        //컨버터가 포맷터보가 우선한다
+        registry.addFormatter(new MyNumberFormatter());
     }
 }
