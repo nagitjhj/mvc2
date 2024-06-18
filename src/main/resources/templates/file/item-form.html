@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>item-form</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>상품 등록</h2>
+    </div>
+
+    <form th:action method="post" enctype="multipart/form-data">
+        <ul>
+            <li>상품명 <input type="text" name="itemName"> </li>
+            <li>첨부파일 <input type="file" name="attachFile"> </li>
+            <li>이미지 파일들 <input type="file" multiple name="imageFiles" onchange="readFile(this)" accept="image/*"></li>
+            <div id="preview"></div>
+        </ul>
+        <input type="submit">
+    </form>
+</div>
+
+<script>
+    function readFile(input) {
+        const files = input.files;
+        let previewContainer = document.getElementById('preview');
+        previewContainer.innerHTML = '';
+
+        // if (file.type.match('image.*')) {
+
+        Array.from(files).forEach(file => {
+             const reader = new FileReader();
+             reader.onload = function (e) {
+                 let img = document.createElement('img');
+                 img.src = e.target.result;
+                 previewContainer.appendChild(img);
+             }
+             reader.readAsDataURL(file);
+        });
+
+        // if (input.files && input.files[0]) {
+        //     let reader = new FileReader();
+        //     reader.onload = function (e) {
+        //         document.getElementById('preview').src = e.target.result;
+        //         document.getElementById('preview2').src = e.target.result;
+        //     }
+        //     reader.readAsDataURL(input.files[0])
+        //     reader.readAsDataURL(input.files[1])
+        // } else {
+        //     document.getElementById('preview').src = "";
+        // }
+    }
+</script>
+</body>
+</html>
