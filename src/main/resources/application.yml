@@ -1,4 +1,5 @@
 
+
 spring:
   messages:
     basename: messages, errors
@@ -19,6 +20,11 @@ spring:
 
 #  main:
 #    allow-bean-definition-overriding: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: 1234
 
 server:
   error:
@@ -28,6 +34,7 @@ server:
     include-message: always
     include-stacktrace: on_param
     include-binding-errors: always
+  port: 8181
 
 #logging:
 #  level:
@@ -35,3 +42,11 @@ server:
 
 file:
   dir: D:/file/mvc/
+
+rabbitmq:
+  queue:
+    name: sample-queue
+  exchange:
+    name: sample-exchange
+  routing:
+    key: key

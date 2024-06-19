@@ -2,6 +2,7 @@ package com.hi.mvc2basic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -10,6 +11,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 //@SpringBootApplication(exclude = {QuartzAutoConfiguration.class})
 //@ServletComponentScan
 @SpringBootApplication
+@ConfigurationPropertiesScan
 public class Mvc2BasicApplication {
 
     public static void main(String[] args) {
